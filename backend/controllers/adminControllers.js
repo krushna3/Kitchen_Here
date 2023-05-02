@@ -12,11 +12,16 @@ exports.registerAdmin = async (req, res, next) => {
 
     // Check Email Is Exist Or Not
     try {
-        const { email } = req.body
+        const { email, user_id } = req.body
         const adminEmail = await Admin.exists({ email });
         if (adminEmail) {
             return next(new ErrorHandler("Email already exist, Please enter a new email", 409));
         }
+        const adminId = await Admin.exists({ user_id });
+        if (adminId) {
+            return next(new ErrorHandler("User Id already exist, Please enter a new User Id", 409));
+        }
+
     } catch (error) {
         return next(error);
     }
@@ -145,7 +150,9 @@ exports.refresh = async (req, res, next) => {
         const refresh_token = JwtService.sign({ _id: admin._id, role: admin.role }, '1y', process.env.REFRESH_TOKEN);
 
         // Database Whitelisting
-        await RefreshToken.create({ token: refresh_token });
+        const rToken = await RefreshToken.create({ token: refresh_token });
+        await rToken.save();
+
         res.status(200).json({
             access_token,
             refresh_token
@@ -159,12 +166,8 @@ exports.refresh = async (req, res, next) => {
 
 // Logout Controller
 exports.logout = async (req, res, next) => {
-    let refresh_token, access_token;
     try {
         await RefreshToken.deleteOne({ token: req.body.refresh_token });
-        refresh_token = req.body.refresh_token;
-        access_token = req.headers.authorization;
-
     } catch (error) {
         return next(new Error('Something Went Worng In The Database'))
     }

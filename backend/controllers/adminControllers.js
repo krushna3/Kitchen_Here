@@ -10,7 +10,7 @@ const ErrorHandler = require("../utils/Errorhandler");
 // Register Admin
 exports.registerAdmin = async (req, res, next) => {
 
-    // Check Email Is Exist Or Not
+    // Check Email Is Exist Or Not, Checking for Unique User Id
     try {
         const { email, user_id } = req.body
         const adminEmail = await Admin.exists({ email });

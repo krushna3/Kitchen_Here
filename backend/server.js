@@ -3,14 +3,23 @@ const app = express();
 const connectDatabase = require('./config/database');
 const errorMiddleware = require("./middlewares/error");
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 
 const admin = require("./routes/adminRoute");
 app.use("/api/v1", admin);
 
+const dishes = require("./routes/dishesRoute");
+app.use("/api/v1", dishes);
+
+
 app.use(errorMiddleware);
+app.use('/uploads', express.static('uploads'));
 
 // config for dotenv
 const path = require('path');

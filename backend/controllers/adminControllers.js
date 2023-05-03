@@ -4,7 +4,7 @@ const sendMail = require("../utils/sendMail");
 const securePassword = require("../utils/securePassword");
 const JwtService = require("../utils/JwtService");
 const bcrypt = require("bcrypt");
-const ErrorHandler = require("../utils/Errorhandler");
+const ErrorHandler = require("../utils/ErrorHandler");
 
 
 // Register Admin

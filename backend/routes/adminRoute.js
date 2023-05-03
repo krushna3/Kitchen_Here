@@ -1,12 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { registerAdmin, loginAdmin, home, refresh, logout } = require('../controllers/adminControllers');
-
-const bodyParser = require('body-parser');
 const { auth } = require('../middlewares/auth');
 const { verifyMail } = require('../utils/verifyMail');
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: true }));
 
 
 

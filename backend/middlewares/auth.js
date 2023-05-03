@@ -1,4 +1,4 @@
-const ErrorHandler = require("../utils/Errorhandler");
+const ErrorHandler = require("../utils/ErrorHandler");
 const JwtService = require("../utils/JwtService");
 
 exports.auth = (req, res, next) => {

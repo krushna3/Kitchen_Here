@@ -136,9 +136,15 @@ exports.deleteDish = async (req, res, next) => {
 exports.getAllDishes = async (req, res, next) => {
 
     let dishes;
-    // Pagination Mongoose Pagination
     try {
-        dishes = await Dish.find().select('-updatedAt -__v').sort({ _id: -1 });
+        // mongoose Pagination
+        const options = {
+            page: Number(req.query.page) || 1,
+            limit: 5
+        }
+        dishes = await Dish.paginate({}, options);
+        // Finding all the Dishes
+        // dishes = await Dish.find().select('-updatedAt -__v').sort({ _id: -1 });
     } catch (err) {
         return next(err);
     }

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 
 const dishSchema = new mongoose.Schema({
@@ -28,5 +29,7 @@ const dishSchema = new mongoose.Schema({
         default: false
     }
 }, { timestamps: true, toJSON: { getters: true }, id: false });
+
+dishSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("Dish", dishSchema)
